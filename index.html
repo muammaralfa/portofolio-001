@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Muammar Ibrahim Alfarizi — Data Engineer. Building high-performance pipelines, real-time analytics, and AI-integrated data systems." />
+  <title>Muammar Alfarizi · Data Engineer</title>
+
+  <!-- Fonts: Plus Jakarta Sans (headings + body) + JetBrains Mono (technical accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================================================================
+       CSS CUSTOM PROPERTIES
+       =================================================================== */
+    :root {
+      /* --- Palette --- */
+      --color-white:        #ffffff;
+      --color-off-white:    #f8fafc;
+      --color-soft-grey:    #e2e8f0;
+      --color-mid-grey:     #94a3b8;
+      --color-text-light:   #64748b;
+      --color-text:         #334155;
+      --color-text-dark:    #0f172a;
+      --color-sky:          #2563eb;   /* primary brand — sections, borders, headers */
+      --color-sky-soft:     #dbeafe;   /* sky blue tint for subtle backgrounds */
+      --color-accent:       #06b6d4;   /* electric cyan — CTAs, hover, icons */
+      --color-accent-glow:  rgba(6, 182, 212, 0.18);
+
+      /* --- Typography --- */
+      --font-sans:          'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono:          'JetBrains Mono', 'Fira Code', monospace;
+
+      /* --- Spacing scale --- */
+      --space-xs:  0.5rem;
+      --space-sm:  0.75rem;
+      --space-md:  1rem;
+      --space-lg:  1.5rem;
+      --space-xl:  2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --space-4xl: 6rem;
+
+      /* --- Radii --- */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+
+      /* --- Shadows --- */
+      --shadow-sm:  0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:  0 4px 12px rgba(0,0,0,.06);
+      --shadow-lg:  0 12px 32px rgba(0,0,0,.08);
+      --shadow-glow: 0 0 0 3px var(--color-accent-glow);
+
+      /* --- Transitions --- */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+      --duration-fast: 180ms;
+      --duration-base: 300ms;
+      --duration-slow: 500ms;
+
+      /* --- Layout --- */
+      --content-max: 1100px;
+      --nav-height: 4rem;
+    }
+
+    /* ===================================================================
+       RESET & BASE
+       =================================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-text);
+      background-color: var(--color-off-white);
+      overflow-x: hidden;
+    }
+
+    /* Subtle dot-grid background — nods to data / network topologies */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, #2563eb0a 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+    }
+
+    /* Sections sit above the dot grid */
+    section, nav, footer { position: relative; z-index: 1; }
+
+    /* ===================================================================
+       TYPOGRAPHY
+       =================================================================== */
+    h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; color: var(--color-text-dark); }
+    h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-sky);
+      margin-bottom: var(--space-sm);
+      display: block;
+    }
+
+    .section-heading {
+      margin-bottom: var(--space-sm);
+    }
+
+    .section-rule {
+      width: 60px;
+      height: 3px;
+      background: var(--color-accent);
+      border: none;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-2xl);
+    }
+
+    /* ===================================================================
+       NAVIGATION
+       =================================================================== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      border-bottom: 1px solid var(--color-soft-grey);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--color-sky);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-xl);
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-text-light);
+      transition: color var(--duration-fast) var(--ease-out-expo);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--color-accent);
+      border-radius: var(--radius-full);
+      transition: width var(--duration-base) var(--ease-out-expo);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible { color: var(--color-text-dark); }
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after { width: 100%; }
+
+    .nav-mobile-toggle {
+      display: none;
+      background: none; border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--color-text-dark);
+    }
+
+    /* ===================================================================
+       HERO
+       =================================================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-block: var(--space-4xl) var(--space-3xl);
+    }
+
+    .hero-inner {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-sky);
+      background: var(--color-sky-soft);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-lg);
+      animation: fadeInUp 0.7s var(--ease-out-expo) both;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6.5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--color-text-dark);
+      animation: fadeInUp 0.7s 0.1s var(--ease-out-expo) both;
+    }
+
+    .hero-name .accent {
+      color: var(--color-sky);
+    }
+
+    .hero-title {
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      font-weight: 500;
+      color: var(--color-mid-grey);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: var(--space-md);
+      animation: fadeInUp 0.7s 0.2s var(--ease-out-expo) both;
+    }
+
+    .hero-title .pipe {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+
+    .hero-subtitle {
+      max-width: 620px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--color-text-light);
+      margin-top: var(--space-lg);
+      animation: fadeInUp 0.7s 0.3s var(--ease-out-expo) both;
+    }
+
+    .hero-subtitle strong {
+      color: var(--color-text-dark);
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+      animation: fadeInUp 0.7s 0.4s var(--ease-out-expo) both;
+    }
+
+    /* ===================================================================
+       BUTTONS
+       =================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.925rem;
+      padding: 0.8em 1.7em;
+      border-radius: var(--radius-full);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--duration-base) var(--ease-out-expo);
+      white-space: nowrap;
+    }
+
+    .btn--primary {
+      background: var(--color-accent);
+      color: #fff;
+      border-color: var(--color-accent);
+      box-shadow: 0 4px 14px var(--color-accent-glow);
+    }
+
+    .btn--primary:hover,
+    .btn--primary:focus-visible {
+      background: #0891b2; /* deeper cyan */
+      border-color: #0891b2;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--color-sky);
+      border-color: var(--color-sky);
+    }
+
+    .btn--outline:hover,
+    .btn--outline:focus-visible {
+      background: var(--color-sky);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.22);
+    }
+
+    /* ===================================================================
+       EXPERTISE SECTION
+       =================================================================== */
+    .section {
+      padding-block: var(--space-4xl);
+    }
+
+    .section--tint {
+      background: var(--color-white);
+      border-top: 1px solid var(--color-soft-grey);
+      border-bottom: 1px solid var(--color-soft-grey);
+    }
+
+    .section-inner {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    /* --- Expertise Card --- */
+    .card {
+      background: var(--color-white);
+      border: 1px solid var(--color-soft-grey);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      transition: all var(--duration-slow) var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Sky-blue top accent line */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: var(--space-xl); right: var(--space-xl);
+      height: 3px;
+      background: var(--color-sky);
+      border-radius: 0 0 3px 3px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-slow) var(--ease-out-expo);
+    }
+
+    .card:hover::before { transform: scaleX(1); }
+    .card:hover { border-color: var(--color-sky-soft); box-shadow: var(--shadow-lg); }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-sky-soft);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-sky-soft);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+      color: var(--color-sky);
+      transition: all var(--duration-base) var(--ease-out-expo);
+    }
+
+    .card:hover .card-icon {
+      background: var(--color-accent);
+      color: #fff;
+      box-shadow: 0 6px 18px var(--color-accent-glow);
+    }
+
+    .card-icon svg { width: 24px; height: 24px; }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+      color: var(--color-text-dark);
+    }
+
+    .card p {
+      font-size: 0.925rem;
+      color: var(--color-text-light);
+      line-height: 1.65;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: var(--space-md);
+    }
+
+    .card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: var(--color-off-white);
+      color: var(--color-text-light);
+      border: 1px solid var(--color-soft-grey);
+    }
+
+    /* ===================================================================
+       TIMELINE (Experience)
+       =================================================================== */
+    .timeline {
+      position: relative;
+      padding-left: 0;
+      margin-top: var(--space-2xl);
+    }
+
+    /* Vertical spine */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--color-soft-grey);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      align-items: start;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+      position: relative;
+    }
+
+    /* Dot on the spine */
+    .timeline-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--color-white);
+      border: 3px solid var(--color-sky);
+      position: relative;
+      z-index: 2;
+      margin-inline: auto;
+      margin-top: 18px;
+      transition: all var(--duration-base) var(--ease-out-expo);
+      flex-shrink: 0;
+    }
+
+    .timeline-item:hover .timeline-dot {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 6px var(--color-accent-glow);
+    }
+
+    .timeline-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-soft-grey);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      transition: all var(--duration-base) var(--ease-out-expo);
+      position: relative;
+    }
+
+    .timeline-item:hover .timeline-card {
+      border-color: var(--color-sky-soft);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* Connecting lines from card to dot — only on desktop */
+    .timeline-card::after {
+      content: '';
+      position: absolute;
+      top: 22px;
+      width: 20px;
+      height: 2px;
+      background: var(--color-soft-grey);
+      transition: background var(--duration-base);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-card { grid-column: 1; }
+    .timeline-item:nth-child(even) .timeline-card { grid-column: 3; }
+
+    .timeline-item:nth-child(odd) .timeline-card::after { right: -20px; }
+    .timeline-item:nth-child(even) .timeline-card::after { left: -20px; }
+
+    .timeline-item:hover .timeline-card::after { background: var(--color-accent); }
+
+    .timeline-metric {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xs);
+    }
+
+    .timeline-card p {
+      font-size: 0.9rem;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* Empty spacer for alternating layout */
+    .timeline-spacer {
+      /* used only in grid context */
+    }
+
+    /* ===================================================================
+       FOOTER / CONTACT
+       =================================================================== */
+    .footer {
+      padding-block: var(--space-4xl);
+      text-align: center;
+      background: var(--color-white);
+      border-top: 1px solid var(--color-soft-grey);
+    }
+
+    .footer-inner {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+    }
+
+    .footer h2 {
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer .section-rule {
+      margin-inline: auto;
+      margin-bottom: var(--space-xl);
+    }
+
+    .footer-text {
+      color: var(--color-text-light);
+      max-width: 440px;
+      margin-inline: auto;
+      margin-bottom: var(--space-xl);
+      font-size: 0.975rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.925rem;
+      padding: 0.65em 1.4em;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--color-soft-grey);
+      color: var(--color-text);
+      transition: all var(--duration-base) var(--ease-out-expo);
+    }
+
+    .social-link:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: var(--color-accent-glow);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .social-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--color-mid-grey);
+    }
+
+    /* ===================================================================
+       SCROLL REVEAL ANIMATIONS
+       =================================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease-out-expo),
+                  transform 0.7s var(--ease-out-expo);
+    }
+
+    .reveal--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .stagger-children > .reveal { transition-delay: 0s; }
+    .stagger-children > .reveal:nth-child(1) { transition-delay: 0.00s; }
+    .stagger-children > .reveal:nth-child(2) { transition-delay: 0.10s; }
+    .stagger-children > .reveal:nth-child(3) { transition-delay: 0.20s; }
+    .stagger-children > .reveal:nth-child(4) { transition-delay: 0.30s; }
+    .stagger-children > .reveal:nth-child(5) { transition-delay: 0.05s; }
+    .stagger-children > .reveal:nth-child(6) { transition-delay: 0.15s; }
+    .stagger-children > .reveal:nth-child(7) { transition-delay: 0.25s; }
+    .stagger-children > .reveal:nth-child(8) { transition-delay: 0.35s; }
+
+    /* ===================================================================
+       KEYFRAMES
+       =================================================================== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(1.6); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* ===================================================================
+       RESPONSIVE — Tablet
+       =================================================================== */
+    @media (max-width: 900px) {
+      .timeline::before { left: 20px; }
+      .timeline-item {
+        grid-template-columns: 20px 1fr;
+        gap: var(--space-md);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-card,
+      .timeline-item:nth-child(even) .timeline-card {
+        grid-column: 2;
+      }
+
+      .timeline-dot {
+        grid-column: 1;
+        grid-row: 1;
+        margin-top: 18px;
+      }
+
+      .timeline-card::after { display: none; }
+    }
+
+    /* ===================================================================
+       RESPONSIVE — Mobile
+       =================================================================== */
+    @media (max-width: 640px) {
+      :root {
+        --space-4xl: 3.5rem;
+        --space-3xl: 2.5rem;
+      }
+
+      /* Mobile nav — simplified: hide links, keep logo only (or show a compact row) */
+      .nav-links { gap: var(--space-md); }
+      .nav-links a { font-size: 0.78rem; }
+
+      .hero { min-height: auto; padding-top: calc(var(--nav-height) + 2rem); }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-actions .btn { justify-content: center; }
+
+      .cards-grid { grid-template-columns: 1fr; }
+
+      .social-links { flex-direction: column; align-items: center; }
+    }
+
+    /* ===================================================================
+       FOCUS VISIBLE (accessibility)
+       =================================================================== */
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================================================================
+       NAVIGATION
+       ================================================================== -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Muammar Alfarizi home">~/m.alfarizi</a>
+      <ul class="nav-links">
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================================================================
+       HERO
+       ================================================================== -->
+  <section id="hero" class="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          Available for opportunities
+        </span>
+      </div>
+
+      <h1 id="hero-heading" class="hero-name">
+        Muammar Ibrahim<br /><span class="accent">Alfarizi</span>
+      </h1>
+
+      <p class="hero-title">
+        Data Engineer <span class="pipe" aria-hidden="true">|</span> Pipelines &amp; Analytics
+      </p>
+
+      <p class="hero-subtitle">
+        <strong>4 Years of Experience</strong> building high-performance pipelines,
+        real-time analytics, and AI-integrated data systems that transform raw data
+        into actionable intelligence.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#expertise" class="btn btn--primary">
+          View My Work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn--outline">
+          Contact Me
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       TECHNICAL EXPERTISE
+       ================================================================== -->
+  <section id="expertise" class="section section--tint" aria-labelledby="expertise-heading">
+    <div class="section-inner">
+      <span class="section-label reveal">What I Do</span>
+      <h2 id="expertise-heading" class="section-heading reveal">Technical Expertise</h2>
+      <hr class="section-rule reveal" aria-hidden="true" />
+
+      <div class="cards-grid stagger-children">
+
+        <!-- Card 1: Big Data & Streaming -->
+        <article class="card reveal" aria-labelledby="card1-title">
+          <div class="card-icon" aria-hidden="true">
+            <!-- Database / Server cluster icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"/>
+              <path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/>
+              <line x1="8" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+              <line x1="8" y1="13" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3 id="card1-title">Big Data &amp; Streaming</h3>
+          <p>
+            Architecting resilient data pipelines that ingest, process, and serve
+            massive event streams. Leveraging multithreading and message queues for
+            reliable, low-latency data delivery at scale.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">Multithreading</span>
+            <span class="card-tag">Message Queues</span>
+            <span class="card-tag">Real-time</span>
+          </div>
+        </article>
+
+        <!-- Card 2: AI & API Integration -->
+        <article class="card reveal" aria-labelledby="card2-title">
+          <div class="card-icon" aria-hidden="true">
+            <!-- Brain / AI node icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="2.5"/>
+              <circle cx="5" cy="12" r="2.5"/>
+              <circle cx="19" cy="12" r="2.5"/>
+              <circle cx="7" cy="19" r="2.5"/>
+              <circle cx="17" cy="19" r="2.5"/>
+              <line x1="10" y1="6.5" x2="6.8" y2="10"/>
+              <line x1="14" y1="6.5" x2="17.2" y2="10"/>
+              <line x1="6.2" y1="14" x2="8.2" y2="17.2"/>
+              <line x1="17.8" y1="14" x2="15.8" y2="17.2"/>
+              <line x1="12" y1="7.5" x2="12" y2="9.5"/>
+            </svg>
+          </div>
+          <h3 id="card2-title">AI &amp; API Integration</h3>
+          <p>
+            Bridging machine learning models with production systems. Designing
+            high-performance REST APIs and AI-agent pipelines that enrich data
+            and expose intelligence as scalable services.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">REST APIs</span>
+            <span class="card-tag">AI Agents</span>
+            <span class="card-tag">Microservices</span>
+          </div>
+        </article>
+
+        <!-- Card 3: Data Governance & ETL -->
+        <article class="card reveal" aria-labelledby="card3-title">
+          <div class="card-icon" aria-hidden="true">
+            <!-- Shield / pipeline icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="8 11 11 14 16 9"/>
+            </svg>
+          </div>
+          <h3 id="card3-title">Data Governance &amp; ETL</h3>
+          <p>
+            Transforming raw, unstructured data into trusted, analytics-ready
+            datasets. Implementing automated ingestion, cleansing pipelines,
+            and governance frameworks that ensure data consistency and accuracy.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">Data Cleansing</span>
+            <span class="card-tag">ETL</span>
+            <span class="card-tag">Governance</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       EXPERIENCE & ACHIEVEMENTS (Timeline)
+       ================================================================== -->
+  <section id="experience" class="section" aria-labelledby="experience-heading">
+    <div class="section-inner">
+      <span class="section-label reveal">Track Record</span>
+      <h2 id="experience-heading" class="section-heading reveal">Experience &amp; Achievements</h2>
+      <hr class="section-rule reveal" aria-hidden="true" />
+
+      <div class="timeline stagger-children">
+
+        <!-- Item 1 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-metric">30% Faster Processing</div>
+            <p>
+              Processed large-scale data asynchronously, improving performance
+              and efficiency through multithreading and multiprocessing
+              techniques, reducing data processing time by 30%.
+            </p>
+          </div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-card">
+            <div class="timeline-metric">Millions of Events / Day</div>
+            <p>
+              Handled millions of events per day using streaming platforms
+              and message queues, ensuring reliable delivery, data consistency,
+              and security across distributed systems.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-metric">AI-Powered Pipelines</div>
+            <p>
+              Integrated data pipelines with pre-built AI models, exposing
+              them as API-based agents to generate enriched and value-added
+              data for downstream consumers.
+            </p>
+          </div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-card">
+            <div class="timeline-metric">Automated Scheduling</div>
+            <p>
+              Implemented and managed scheduled data extraction workflows
+              to support automated and timely data ingestion from diverse
+              source systems.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-metric">Multi-Source Orchestration</div>
+            <p>
+              Orchestrated data extraction from multiple sources including
+              APIs, data lakes, and raw datasets, integrating them into
+              cohesive end-to-end data pipelines.
+            </p>
+          </div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-card">
+            <div class="timeline-metric">Data Transformation</div>
+            <p>
+              Performed data transformation and cleansing, converting raw
+              and unstructured data into standardized, high-quality datasets
+              ready for analytics and reporting.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-metric">Trusted Data Governance</div>
+            <p>
+              Maintained and governed clean, trusted datasets to ensure
+              consistency, accuracy, and up-to-date availability for
+              downstream systems and stakeholders.
+            </p>
+          </div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+
+        <!-- Item 8 -->
+        <div class="timeline-item reveal">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-card">
+            <div class="timeline-metric">High-Performance APIs</div>
+            <p>
+              Designed and developed high-performance REST APIs for
+              data-driven analytics platforms and real-time logging systems,
+              focusing on low-latency response, caching strategies, and
+              database optimization for high-throughput scalability.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       FOOTER / CONTACT
+       ================================================================== -->
+  <footer id="contact" class="footer" aria-labelledby="contact-heading">
+    <div class="footer-inner">
+      <span class="section-label reveal">Get In Touch</span>
+      <h2 id="contact-heading" class="reveal">Let's Connect</h2>
+      <hr class="section-rule reveal" aria-hidden="true" />
+      <p class="footer-text reveal">
+        I'm always open to discussing data engineering opportunities,
+        collaborations, or just geeking out about pipelines and distributed systems.
+      </p>
+
+      <div class="social-links reveal">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/muammar-ibrahim-alfarizi-4092522a2/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          LinkedIn
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/muammaralfa" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          GitHub
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:alfabaim2003@email.com" class="social-link" aria-label="Send email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 4L12 13 2 4"/>
+          </svg>
+          Email
+        </a>
+      </div>
+
+      <p class="footer-copy">
+        &copy; 2026 Muammar Ibrahim Alfarizi. Built with precision.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================================================================
+       JAVASCRIPT — Scroll Reveal (Intersection Observer)
+       ================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('reveal--visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px',
+        }
+      );
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    })();
+  </script>
+
+</body>
+</html>
