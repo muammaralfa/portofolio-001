@@ -143,6 +143,47 @@
       100% { transform: translate(40px, -30px) scale(1.08); }
     }
 
+    /* ===================================================================
+       CITY SKYLINE
+       =================================================================== */
+    .bg-skyline {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 280px;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-skyline svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .skyline-far {
+      fill: var(--color-soft-grey);
+      opacity: 0.35;
+    }
+
+    .skyline-mid {
+      fill: var(--color-soft-grey);
+      opacity: 0.55;
+    }
+
+    .skyline-near {
+      fill: var(--color-mid-grey);
+      opacity: 0.45;
+    }
+
+    .skyline-windows rect {
+      fill: var(--color-accent);
+    }
+
+    .skyline-spire {
+      stroke: var(--color-mid-grey);
+      opacity: 0.5;
+    }
+
     [data-theme="dark"] .btn--outline {
       color: var(--color-accent);
       border-color: var(--color-accent);
@@ -1201,6 +1242,66 @@
     <div class="bg-blob bg-blob--1"></div>
     <div class="bg-blob bg-blob--2"></div>
     <div class="bg-blob bg-blob--3"></div>
+  </div>
+
+  <!-- City skyline silhouette -->
+  <div class="bg-skyline" aria-hidden="true">
+    <svg viewBox="0 0 1440 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Far buildings (background layer) -->
+      <rect x="0"   y="180" width="80"  height="100" rx="2" class="skyline-far" />
+      <rect x="90"  y="160" width="60"  height="120" rx="2" class="skyline-far" />
+      <rect x="160" y="200" width="90"  height="80"  rx="2" class="skyline-far" />
+      <rect x="260" y="140" width="70"  height="140" rx="2" class="skyline-far" />
+      <rect x="340" y="190" width="100" height="90"  rx="2" class="skyline-far" />
+      <rect x="450" y="150" width="80"  height="130" rx="2" class="skyline-far" />
+      <rect x="540" y="210" width="110" height="70"  rx="2" class="skyline-far" />
+      <rect x="660" y="130" width="60"  height="150" rx="2" class="skyline-far" />
+      <!-- Mid buildings -->
+      <rect x="50"  y="140" width="55"  height="140" rx="3" class="skyline-mid" />
+      <rect x="200" y="110" width="75"  height="170" rx="3" class="skyline-mid" />
+      <rect x="300" y="170" width="65"  height="110" rx="3" class="skyline-mid" />
+      <rect x="420" y="100" width="85"  height="180" rx="3" class="skyline-mid" />
+      <rect x="580" y="130" width="70"  height="150" rx="3" class="skyline-mid" />
+      <rect x="720" y="90"  width="55"  height="190" rx="3" class="skyline-mid" />
+      <rect x="800" y="160" width="80"  height="120" rx="3" class="skyline-mid" />
+      <rect x="920" y="120" width="65"  height="160" rx="3" class="skyline-mid" />
+      <rect x="1020" y="150" width="75" height="130" rx="3" class="skyline-mid" />
+      <rect x="1130" y="100" width="90" height="180" rx="3" class="skyline-mid" />
+      <rect x="1260" y="140" width="70" height="140" rx="3" class="skyline-mid" />
+      <rect x="1360" y="170" width="80" height="110" rx="3" class="skyline-mid" />
+      <!-- Foreground buildings -->
+      <rect x="110" y="170" width="45"  height="110" rx="4" class="skyline-near" />
+      <rect x="350" y="130" width="50"  height="150" rx="4" class="skyline-near" />
+      <rect x="500" y="80"  width="60"  height="200" rx="4" class="skyline-near" />
+      <rect x="650" y="150" width="55"  height="130" rx="4" class="skyline-near" />
+      <rect x="780" y="100" width="48"  height="180" rx="4" class="skyline-near" />
+      <rect x="980" y="140" width="58"  height="140" rx="4" class="skyline-near" />
+      <rect x="1180" y="70" width="55"  height="210" rx="4" class="skyline-near" />
+      <rect x="1320" y="120" width="48"  height="160" rx="4" class="skyline-near" />
+      <!-- Windows (small dots/rects) -->
+      <g class="skyline-windows" opacity="0.35">
+        <!-- Windows on tallest foreground building (x=500) -->
+        <rect x="510" y="95"  width="4" height="5" rx="1"/><rect x="520" y="95"  width="4" height="5" rx="1"/><rect x="530" y="95"  width="4" height="5" rx="1"/>
+        <rect x="510" y="110" width="4" height="5" rx="1"/><rect x="520" y="110" width="4" height="5" rx="1"/><rect x="530" y="110" width="4" height="5" rx="1"/>
+        <rect x="510" y="125" width="4" height="5" rx="1"/><rect x="520" y="125" width="4" height="5" rx="1"/><rect x="530" y="125" width="4" height="5" rx="1"/>
+        <rect x="510" y="140" width="4" height="5" rx="1"/><rect x="520" y="140" width="4" height="5" rx="1"/><rect x="530" y="140" width="4" height="5" rx="1"/>
+        <!-- Windows on tallest foreground building (x=1180) -->
+        <rect x="1190" y="85" width="4" height="5" rx="1"/><rect x="1200" y="85" width="4" height="5" rx="1"/><rect x="1210" y="85" width="4" height="5" rx="1"/>
+        <rect x="1190" y="100" width="4" height="5" rx="1"/><rect x="1200" y="100" width="4" height="5" rx="1"/><rect x="1210" y="100" width="4" height="5" rx="1"/>
+        <rect x="1190" y="115" width="4" height="5" rx="1"/><rect x="1200" y="115" width="4" height="5" rx="1"/><rect x="1210" y="115" width="4" height="5" rx="1"/>
+        <!-- Windows on mid building (x=200) -->
+        <rect x="212" y="125" width="4" height="5" rx="1"/><rect x="222" y="125" width="4" height="5" rx="1"/><rect x="232" y="125" width="4" height="5" rx="1"/>
+        <rect x="212" y="140" width="4" height="5" rx="1"/><rect x="222" y="140" width="4" height="5" rx="1"/><rect x="232" y="140" width="4" height="5" rx="1"/>
+        <rect x="212" y="155" width="4" height="5" rx="1"/><rect x="222" y="155" width="4" height="5" rx="1"/><rect x="232" y="155" width="4" height="5" rx="1"/>
+        <!-- Windows on mid building (x=780) -->
+        <rect x="792" y="115" width="4" height="5" rx="1"/><rect x="802" y="115" width="4" height="5" rx="1"/>
+        <rect x="792" y="130" width="4" height="5" rx="1"/><rect x="802" y="130" width="4" height="5" rx="1"/>
+        <rect x="792" y="145" width="4" height="5" rx="1"/><rect x="802" y="145" width="4" height="5" rx="1"/>
+      </g>
+      <!-- Antenna / spire on tallest building -->
+      <line x1="530" y1="80" x2="530" y2="55" stroke-width="3" stroke-linecap="round" class="skyline-spire"/>
+      <line x1="1205" y1="70" x2="1205" y2="40" stroke-width="3" stroke-linecap="round" class="skyline-spire"/>
+    </svg>
   </div>
 
   <!-- ==================================================================
